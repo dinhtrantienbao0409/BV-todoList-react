@@ -1,40 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
-import { Form, Input, Radio, Modal, Button } from "antd";
+import { Input, Radio, Modal, Button, Form } from "antd";
 import { useTodos } from "../App";
+import { TodoContext } from "./context";
 
 export const CreatePopup = ({ onOpen, onSave, onCancel }) => {
-  const [task, setTask] = useState("");
-  console.log("🚀 ~ file: createPopup.js:8 ~ CreatePopup ~ task:", task);
-  const [status, setStatus] = useState("");
-  console.log("🚀 ~ file: createPopup.js:10 ~ CreatePopup ~ status:", status);
-  const { addTask } = useTodos();
-  console.log("🚀 ~ file: createPopup.js:12 ~ CreatePopup ~ addTask:", addTask);
+  const [form] = Form.useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addTask(task, status);
-    setTask("");
-    setStatus("");
+  const handleSubmit = () => {
+    onSave(form.getFieldsValue());
   };
   return (
     <>
       <Modal
         title="Basic Modal"
         open={onOpen}
-        onOk={onSave}
+        onOk={handleSubmit}
         onCancel={onCancel}
       >
-        <form onSubmit={() => handleSubmit()}>
-          <Radio.Group onChange={(e) => setStatus(e.target.value)}>
-            <Radio value="todo"> To Do </Radio>
-            <Radio value="inprogress"> In Progress </Radio>
-            <Radio value="done"> Done </Radio>
-          </Radio.Group>
-
-          <Input onChange={(e) => setTask(e.target.value)} />
-          <Button>add</Button>
-        </form>
+        <Form form={form}>
+          <Form.Item name="status">
+            <Radio.Group>
+              <Radio value="todo"> To Do </Radio>
+              <Radio value="inprogress"> In Progress </Radio>
+              <Radio value="done"> Done </Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="name">
+            <Input />
+          </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          ></Form.Item>
+        </Form>
       </Modal>
     </>
   );

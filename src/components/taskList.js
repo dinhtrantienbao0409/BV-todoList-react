@@ -1,18 +1,55 @@
-import React from "react";
-import { useTodos } from "../App";
+import React, { useContext } from "react";
+import { mockData } from "../mockData";
+import { Col, Row, Card, Space, Button } from "antd";
 
 export const TaskList = () => {
-  const { tasks } = useTodos();
-  console.log("🚀 ~ file: taskList.js:6 ~ TaskList ~ tasks:", tasks);
-  return (
-    <>
-      <div>123</div>
-      {/* {
-        // 3
-        tasks.map((task, i) => (
-          <span key={i} {...task} />
-        ))
-      } */}
-    </>
-  );
+  mockData.map((item) => {
+    console.log(">>>>>>>", item.type);
+    switch (item.type) {
+      case "to do":
+        return (
+          <Card
+            title="TO DO"
+            extra={
+              <>
+                <Button type="primary">Add</Button>
+              </>
+            }
+            style={{ width: 300 }}
+          >
+            {item.name}
+          </Card>
+        );
+      case "in progress":
+        return (
+          <Card
+            title="IN PROGRESS"
+            extra={
+              <>
+                <Button type="primary">Add</Button>
+              </>
+            }
+            style={{ width: 300 }}
+          >
+            {item.name}
+          </Card>
+        );
+      case "done":
+        return (
+          <Card
+            title="DONE"
+            extra={
+              <>
+                <Button type="primary">Add</Button>
+              </>
+            }
+            style={{ width: 300 }}
+          >
+            {item.name}
+          </Card>
+        );
+      default:
+        break;
+    }
+  });
 };
