@@ -9,6 +9,7 @@ export const CreatePopup = ({ onOpen, onSave, onCancel }) => {
 
   const handleSubmit = () => {
     onSave(form.getFieldsValue());
+    form.resetFields();
   };
   return (
     <>
