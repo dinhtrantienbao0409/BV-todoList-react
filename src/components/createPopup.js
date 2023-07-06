@@ -4,7 +4,12 @@ import { Input, Radio, Modal, Button, Form } from "antd";
 import { useTodos } from "../App";
 import { TodoContext } from "./context";
 
-export const CreatePopup = ({ onOpen, onSave, onCancel }) => {
+export const CreatePopup = ({ onOpen, onSave, onCancel, categoryType }) => {
+  const [checkedValue, setCheckedValue] = useState(categoryType);
+  console.log(
+    "🚀 ~ file: createPopup.js:13 ~ CreatePopup ~ checkedValue:",
+    checkedValue
+  );
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
@@ -21,10 +26,10 @@ export const CreatePopup = ({ onOpen, onSave, onCancel }) => {
       >
         <Form form={form}>
           <Form.Item name="status">
-            <Radio.Group>
-              <Radio value="todo"> To Do </Radio>
-              <Radio value="inprogress"> In Progress </Radio>
-              <Radio value="done"> Done </Radio>
+            <Radio.Group value="todo">
+              <Radio value="todo">To Do</Radio>
+              <Radio value="inProgress">In Progress</Radio>
+              <Radio value="done">Done</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item name="name">

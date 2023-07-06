@@ -1,14 +1,17 @@
 export const mockData = [
   {
     id: 0,
-    type: "to do",
+    type: "todo",
+    name: "Todo",
   },
   {
     id: 1,
-    type: "in progress",
+    type: "inProgress",
+    name: "In progress",
   },
   {
     id: 2,
     type: "done",
+    name: "Done",
   },
 ];

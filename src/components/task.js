@@ -25,7 +25,7 @@ export const Task = ({ taskInfo, onDelete }) => {
           danger
           shape="circle"
           icon={<DeleteFilled />}
-          onClick={onDelete}
+          onClick={() => onDelete(taskInfo.id)}
         />
         {/* </Popconfirm> */}
         {/* <Button
