@@ -3,13 +3,11 @@ import React, { useState, useContext } from "react";
 import { Input, Radio, Modal, Button, Form } from "antd";
 import { useTodos } from "../App";
 import { TodoContext } from "./context";
+import { TODO, INPROGRESS, DONE } from "../constants/index";
 
 export const CreatePopup = ({ onOpen, onSave, onCancel, categoryType }) => {
   const [checkedValue, setCheckedValue] = useState(categoryType);
-  console.log(
-    "🚀 ~ file: createPopup.js:13 ~ CreatePopup ~ checkedValue:",
-    checkedValue
-  );
+
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
@@ -19,17 +17,17 @@ export const CreatePopup = ({ onOpen, onSave, onCancel, categoryType }) => {
   return (
     <>
       <Modal
-        title="Basic Modal"
+        title="Create new task"
         open={onOpen}
         onOk={handleSubmit}
         onCancel={onCancel}
       >
         <Form form={form}>
           <Form.Item name="status">
-            <Radio.Group value="todo">
-              <Radio value="todo">To Do</Radio>
-              <Radio value="inProgress">In Progress</Radio>
-              <Radio value="done">Done</Radio>
+            <Radio.Group>
+              <Radio value={TODO}>To Do</Radio>
+              <Radio value={INPROGRESS}>In Progress</Radio>
+              <Radio value={DONE}>Done</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item name="name">

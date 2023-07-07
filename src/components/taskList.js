@@ -4,24 +4,13 @@ import { v4 } from "uuid";
 import { CreatePopup } from "./createPopup";
 
 import { Task } from "./task";
+import { TODO, INPROGRESS, DONE } from "../constants/index";
 
 // Type
 
-export const TaskList = ({ category }) => {
+export const TaskList = ({ category, handleTask, taskInfo }) => {
   const [visible, setVisible] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  console.log("🚀 ~ file: taskList.js:13 ~ TaskList ~ tasks:", tasks);
   const [taskItemList, setTaskItemList] = useState([]);
-  console.log(
-    "🚀 ~ file: taskList.js:14 ~ TaskList ~ taskItemList:",
-    taskItemList
-  );
-
-  const handleSave = (data) => {
-    Object.assign(data, { id: v4() });
-    setTasks([...tasks, data]);
-    setVisible(false);
-  };
 
   const handleOpenPopup = () => {
     setVisible(true);
@@ -31,24 +20,57 @@ export const TaskList = ({ category }) => {
     setVisible(false);
   };
 
+  const handleSave = (data) => {
+    Object.assign(data, { id: v4() });
+    handleTask([...taskInfo, data]);
+    setVisible(false);
+  };
+
+  const handleDeleteTask = (taskId) => {
+    const result = taskInfo.filter((task) => task.id !== taskId);
+    handleTask(result);
+  };
+
+  const handleUpdateStatus = (id) => {
+    const tasks = [...taskInfo];
+    const taskIndex = tasks.findIndex((task) => task.id == id);
+
+    if (taskIndex > -1) {
+      if (tasks[taskIndex].status === TODO) {
+        tasks[taskIndex].status = INPROGRESS;
+      } else if (tasks[taskIndex].status === INPROGRESS) {
+        tasks[taskIndex].status = DONE;
+      }
+      handleTask(tasks);
+    }
+
+    //     return { ...item, status: INPROGRESS };
+    // const updatedTaskList = taskInfo.map((item) => {
+    //   if (item.id === id && item.status === TODO) {
+    //     return { ...item, status: INPROGRESS };
+    //   } else if (item.id === id && item.status === INPROGRESS) {
+    //     return { ...item, status: DONE };
+    //   }
+    // });
+    // handleTask(updatedTaskList);
+  };
+
+  const handleUpdateName = (taskId, updatedName) => {
+    const updatedTaskName = taskInfo.map((item) => {
+      if (taskId === item.id) return { ...item, name: updatedName };
+    });
+    handleTask(updatedTaskName);
+  };
+
   useEffect(() => {
-    if (tasks instanceof Array) {
-      const taskItemData = tasks.filter(
+    if (taskInfo instanceof Array) {
+      const taskItemData = taskInfo.filter(
         (item) => item.status === category.type
       );
 
       setTaskItemList(taskItemData);
     }
-  }, [tasks]);
-
-  const handleDeleteTask = (taskId) => {
-    console.log(
-      "🚀 ~ file: taskList.js:12 ~ handleDeleteTask ~ taskId:",
-      taskId
-    );
-    const result = tasks.filter((task) => task.id !== taskId);
-    setTasks(result);
-  };
+  }, [taskInfo]);
 
   return (
     <Col span={8} key={category.id}>
@@ -57,18 +79,26 @@ export const TaskList = ({ category }) => {
         type={category.type}
         extra={
           <>
+            <Button type="primary" shape="circle" disabled>
+              {taskItemList.length}
+            </Button>
             <Button type="primary" onClick={handleOpenPopup}>
               Add
             </Button>
           </>
         }
-        style={{ width: 300 }}
+        style={{ width: "100%" }}
       >
         {taskItemList &&
           taskItemList.map((item) => (
-            <Task taskInfo={item} onDelete={handleDeleteTask}>
-              {" "}
-            </Task>
+            <Task
+              key={item.id}
+              taskInfo={item}
+              onDelete={handleDeleteTask}
+              onUpdateStatus={handleUpdateStatus}
+              onUpdateName={handleUpdateName}
+              handleName={setTaskItemList}
+            />
           ))}
       </Card>
       <CreatePopup
