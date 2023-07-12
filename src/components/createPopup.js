@@ -1,13 +1,9 @@
 import React, { useState, useContext } from "react";
 
 import { Input, Radio, Modal, Button, Form } from "antd";
-import { useTodos } from "../App";
-import { TodoContext } from "./context";
 import { TODO, INPROGRESS, DONE } from "../constants/index";
 
 export const CreatePopup = ({ onOpen, onSave, onCancel, categoryType }) => {
-  const [checkedValue, setCheckedValue] = useState(categoryType);
-
   const [form] = Form.useForm();
 
   const handleSubmit = () => {

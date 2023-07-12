@@ -8,6 +8,7 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { Card, Button, Typography, Popconfirm, message, Input } from "antd";
+import { TODO, INPROGRESS, DONE } from "../constants/index";
 
 export const Task = ({
   taskInfo,
@@ -41,8 +42,8 @@ export const Task = ({
                 icon={<DeleteFilled />}
               />
             </Popconfirm>
-            {(taskInfo.status && taskInfo.status === "todo") ||
-            taskInfo.status === "inProgress" ? (
+            {(taskInfo.status && taskInfo.status === TODO) ||
+            taskInfo.status === INPROGRESS ? (
               <Button
                 type="primary"
                 shape="circle"

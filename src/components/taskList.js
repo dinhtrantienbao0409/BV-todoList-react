@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Col, Row, Card, Space, Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Col, Card, Button } from "antd";
 import { v4 } from "uuid";
 import { CreatePopup } from "./createPopup";
-
 import { Task } from "./task";
 import { TODO, INPROGRESS, DONE } from "../constants/index";
 
